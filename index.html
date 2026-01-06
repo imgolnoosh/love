@@ -6,75 +6,62 @@
 <title>فقط برای تو ❤️</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;500&display=swap" rel="stylesheet">
 <style>
-body {
+html, body {
   margin: 0;
+  padding: 0;
+  height: 100%;
   font-family: 'Vazirmatn', sans-serif;
   background: linear-gradient(135deg, #c9a7eb, #ffb347);
-  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow-x: hidden;
-  padding: 10px;
 }
 
-/* کارت اصلی */
 .card {
   position: relative;
   z-index: 2;
   background: rgba(255,255,255,0.18);
   backdrop-filter: blur(12px);
   border-radius: 20px;
-  padding: 15px;
+  padding: 15px 12px;
   width: 100%;
-  max-width: 360px;
+  max-width: 340px; /* کمتر برای موبایل */
   text-align: center;
   color: #fff;
   box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  box-sizing: border-box;
 }
 
-.bears {
-  font-size: 36px;
-  margin-bottom: 6px;
-}
-
-h1 {
-  margin: 6px 0;
-  font-weight: 500;
-  font-size: 1.4rem;
-}
-
-#promptText {
-  font-weight: 300;
-  font-size: 0.95rem;
-  margin-bottom: 12px;
-}
+.bears { font-size: 36px; margin-bottom: 6px; }
+h1 { margin: 6px 0; font-weight: 500; font-size: 1.4rem; }
+#promptText { font-weight: 300; font-size: 0.95rem; margin-bottom: 12px; }
 
 input {
-  width: 100%;
-  padding: 10px;
+  width: 90%;
+  max-width: 240px;
+  padding: 8px;
   border-radius: 10px;
   border: none;
-  font-size: 14px;
+  font-size: 13px;
   text-align: center;
   outline: none;
   margin-bottom: 10px;
 }
 
 button {
-  width: 100%;
-  padding: 10px;
+  width: 90%;
+  max-width: 240px;
+  padding: 8px;
   border-radius: 10px;
   border: none;
-  font-size: 14px;
+  font-size: 13px;
   color: #fff;
   background: #ff7a3d;
   cursor: pointer;
 }
 
-button:hover {
-  background: #ff6320;
-}
+button:hover { background: #ff6320; }
 
 video {
   width: 100%;
@@ -83,7 +70,6 @@ video {
   display: none;
 }
 
-/* متن عاشقانه بعد از ورود */
 #welcomeText {
   display: none;
   font-weight: 500;
@@ -93,7 +79,6 @@ video {
   text-align: center;
 }
 
-/* قلب‌های متحرک */
 .hearts {
   position: fixed;
   top: 0;
@@ -107,7 +92,7 @@ video {
 
 .heart {
   position: absolute;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255,255,255,0.7);
   animation: floatUp linear infinite;
 }
 
@@ -119,10 +104,11 @@ video {
 
 /* ریسپانسیو موبایل */
 @media(max-width: 480px) {
+  .card { max-width: 280px; padding: 10px; }
   .bears { font-size: 28px; }
   h1 { font-size: 1.2rem; }
-  #welcomeText { font-size: 0.95rem; line-height: 1.5; }
-  input, button { font-size: 13px; padding: 8px; }
+  #welcomeText { font-size: 0.9rem; line-height: 1.4; }
+  input, button { font-size: 12px; padding: 6px; width: 80%; max-width: 200px; }
   video { margin-top: 12px; }
 }
 </style>
@@ -138,7 +124,6 @@ video {
   <input type="password" id="pass" placeholder="رمز ورود">
   <button onclick="check()">ورود</button>
 
-  <!-- متن عاشقانه -->
   <div id="welcomeText">
     عشقم، نور چشمم، خرس قشنگم 🐻💞<br>
     یه سال شد که میشناسمت، بهترین روزای عمرم رو کنارت داشتم و خواهم داشت<br>
@@ -153,39 +138,28 @@ video {
 
 <script>
 let heartInterval;
-
-function createHeart() {
+function createHeart(){
   const heart = document.createElement("div");
   heart.className = "heart";
   heart.innerHTML = "❤️";
-  heart.style.left = Math.random() * 100 + "vw";
-  heart.style.fontSize = (14 + Math.random() * 20) + "px";
-  heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+  heart.style.left = Math.random()*100 + "vw";
+  heart.style.fontSize = (14 + Math.random()*20) + "px";
+  heart.style.animationDuration = (5 + Math.random()*5) + "s";
   document.getElementById("hearts").appendChild(heart);
-  setTimeout(() => heart.remove(), 10000);
+  setTimeout(()=>heart.remove(),10000);
 }
-
-function check() {
+function check(){
   const p = document.getElementById("pass").value;
-  if(p === "AG2323"){
-    // مخفی کردن رمز و متن راهنما
-    document.getElementById("pass").style.display = "none";
-    document.querySelector("button").style.display = "none";
-    document.getElementById("promptText").style.display = "none";
-
-    // نمایش متن عاشقانه و ویدیو
-    document.getElementById("welcomeText").style.display = "block";
-    document.getElementById("video").style.display = "block";
-
-    if(!heartInterval){
-      heartInterval = setInterval(createHeart, 500);
-    }
-  } else {
-    alert("رمز اشتباهه 💔");
-  }
+  if(p==="AG2323"){
+    document.getElementById("pass").style.display="none";
+    document.querySelector("button").style.display="none";
+    document.getElementById("promptText").style.display="none";
+    document.getElementById("welcomeText").style.display="block";
+    document.getElementById("video").style.display="block";
+    if(!heartInterval){ heartInterval=setInterval(createHeart,500); }
+  } else { alert("رمز اشتباهه 💔"); }
 }
 </script>
-
 </body>
 </html>
 
