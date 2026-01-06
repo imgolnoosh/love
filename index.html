@@ -4,19 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>فقط برای تو ❤️</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;500&display=swap" rel="stylesheet">
-
 <style>
 body {
   margin: 0;
   font-family: 'Vazirmatn', sans-serif;
   background: linear-gradient(135deg, #c9a7eb, #ffb347);
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-x: hidden;
+  padding: 10px;
 }
 
 /* کارت اصلی */
@@ -25,49 +24,51 @@ body {
   z-index: 2;
   background: rgba(255,255,255,0.18);
   backdrop-filter: blur(12px);
-  border-radius: 24px;
-  padding: 30px;
-  width: 90%;
-  max-width: 420px;
+  border-radius: 20px;
+  padding: 15px;
+  width: 100%;
+  max-width: 360px;
   text-align: center;
   color: #fff;
-  box-shadow: 0 25px 45px rgba(0,0,0,0.25);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
 }
 
 .bears {
-  font-size: 64px;
-  margin-bottom: 10px;
+  font-size: 36px;
+  margin-bottom: 6px;
 }
 
 h1 {
-  margin: 10px 0;
+  margin: 6px 0;
   font-weight: 500;
+  font-size: 1.4rem;
 }
 
-p {
+#promptText {
   font-weight: 300;
-  margin-bottom: 20px;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
 }
 
 input {
   width: 100%;
-  padding: 12px;
-  border-radius: 12px;
+  padding: 10px;
+  border-radius: 10px;
   border: none;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
   outline: none;
+  margin-bottom: 10px;
 }
 
 button {
-  margin-top: 15px;
   width: 100%;
-  padding: 12px;
+  padding: 10px;
+  border-radius: 10px;
   border: none;
-  border-radius: 12px;
-  background: #ff7a3d;
+  font-size: 14px;
   color: #fff;
-  font-size: 16px;
+  background: #ff7a3d;
   cursor: pointer;
 }
 
@@ -77,9 +78,19 @@ button:hover {
 
 video {
   width: 100%;
-  border-radius: 16px;
-  margin-top: 20px;
+  border-radius: 12px;
+  margin-top: 16px;
   display: none;
+}
+
+/* متن عاشقانه بعد از ورود */
+#welcomeText {
+  display: none;
+  font-weight: 500;
+  margin: 10px 0 12px;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: center;
 }
 
 /* قلب‌های متحرک */
@@ -101,35 +112,39 @@ video {
 }
 
 @keyframes floatUp {
-  0% {
-    transform: translateY(100vh) scale(0.8);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-10vh) scale(1.2);
-    opacity: 0;
-  }
+  0% { transform: translateY(100vh) scale(0.7); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(-10vh) scale(1.1); opacity: 0; }
+}
+
+/* ریسپانسیو موبایل */
+@media(max-width: 480px) {
+  .bears { font-size: 28px; }
+  h1 { font-size: 1.2rem; }
+  #welcomeText { font-size: 0.95rem; line-height: 1.5; }
+  input, button { font-size: 13px; padding: 8px; }
+  video { margin-top: 12px; }
 }
 </style>
 </head>
-
 <body>
 
-<!-- لایه قلب‌ها -->
 <div class="hearts" id="hearts"></div>
 
-<!-- کارت محتوا -->
 <div class="card">
   <div class="bears">🐻🐼</div>
-
   <h1>فقط برای تو</h1>
-  <p>رمز رو وارد کن تا ویدیو باز بشه 💕</p>
-
+  <p id="promptText">رمز رو وارد کن تا ویدیو باز بشه 💕</p>
   <input type="password" id="pass" placeholder="رمز ورود">
   <button onclick="check()">ورود</button>
+
+  <!-- متن عاشقانه -->
+  <div id="welcomeText">
+    عشقم، نور چشمم، خرس قشنگم 🐻💞<br>
+    یه سال شد که میشناسمت، بهترین روزای عمرم رو کنارت داشتم و خواهم داشت<br>
+    بهترین روزا رو برات میسازم<br>
+    بمونی برام قلبم 🤍
+  </div>
 
   <video id="video" controls>
     <source src="https://cdn.imgurl.ir/uploads/h15287_66cc96dfd21b457fab4337ade6c16084.mov" type="video/mp4">
@@ -144,22 +159,25 @@ function createHeart() {
   heart.className = "heart";
   heart.innerHTML = "❤️";
   heart.style.left = Math.random() * 100 + "vw";
-  heart.style.fontSize = (16 + Math.random() * 24) + "px";
-  heart.style.animationDuration = (6 + Math.random() * 6) + "s";
-
+  heart.style.fontSize = (14 + Math.random() * 20) + "px";
+  heart.style.animationDuration = (5 + Math.random() * 5) + "s";
   document.getElementById("hearts").appendChild(heart);
-
-  setTimeout(() => {
-    heart.remove();
-  }, 10000);
+  setTimeout(() => heart.remove(), 10000);
 }
 
 function check() {
   const p = document.getElementById("pass").value;
-  if (p === "AG2323") {
+  if(p === "AG2323"){
+    // مخفی کردن رمز و متن راهنما
+    document.getElementById("pass").style.display = "none";
+    document.querySelector("button").style.display = "none";
+    document.getElementById("promptText").style.display = "none";
+
+    // نمایش متن عاشقانه و ویدیو
+    document.getElementById("welcomeText").style.display = "block";
     document.getElementById("video").style.display = "block";
 
-    if (!heartInterval) {
+    if(!heartInterval){
       heartInterval = setInterval(createHeart, 500);
     }
   } else {
@@ -170,3 +188,4 @@ function check() {
 
 </body>
 </html>
+Update HTML with final responsive version
